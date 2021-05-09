@@ -1,0 +1,6 @@
+125 George Brown 3,53 Universite Caddesi 108 3 Izmir
+112 John White 2,75 Defne Sokak 81 6 Ankara
+250 Susan David 3,15 117. Cadde 89 2 Antalya
+310 Bob Ross 3,90 Cumhuriyet Caddesi 76 8 Isparta
+180 Linda Gray 2,25 1859 Sokak 27 5 Ankara
+275 Michael Green 3,71 Universite Caddesi 57 2 Izmir
