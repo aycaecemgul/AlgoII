@@ -35,7 +35,7 @@ public abstract class GeometrikNesne implements Comparable {
     }
 
     public void setTarih(Date tarih) {
-        this.tarih = tarih;
+        this.tarih = new Date(tarih);
     }
     
     //copy constructor

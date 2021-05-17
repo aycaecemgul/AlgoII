@@ -1,5 +1,5 @@
 daire dai1 8.0 date 12 30 2002
-dikdortgen dik1 10.0 5.0 11 18 2003
+dikdortgen dik1 10.0 5.0 date 11 18 2003
 daire dai2 5.0 date 7 18 2001
 daire dai3 10.0 date 5 18 1990
 silindir sil1 20.0 15.0 date 9 10 2018

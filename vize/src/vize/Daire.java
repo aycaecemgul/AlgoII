@@ -46,9 +46,9 @@ public class Daire extends GeometrikNesne {
             System.exit(0);    
         }
         
-        String copy_label= orj.getLabel()+"_copy";
-        super.setLabel(copy_label);
-        super.setTarih(orj.getTarih());
+
+        super.setLabel(orj.getLabel());
+        super.setTarih(new Date(orj.getTarih()));
         this.yaricap=orj.getYaricap(); 
 
     }
@@ -63,7 +63,6 @@ public class Daire extends GeometrikNesne {
     
     @Override
     public double alanHesapla() {
-        
         return  Math.PI * Math.pow(yaricap, 2);
     }
 
@@ -72,6 +71,7 @@ public class Daire extends GeometrikNesne {
         
         return 2* Math.PI *yaricap;
     }
+    
     
     @Override
     public int compareTo(Object o) {

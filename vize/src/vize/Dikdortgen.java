@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vize;
 
 /**
@@ -27,7 +22,7 @@ public class Dikdortgen extends GeometrikNesne {
         this.en=en;
         this.boy=boy;
     }
-    
+    //constructor with super parameters
     public Dikdortgen(String label, Date tarih,double en, double boy) {
         
         super(label, tarih);
@@ -63,21 +58,19 @@ public class Dikdortgen extends GeometrikNesne {
             System.out.println("error while creating copy constructor of dikdortgen");
             System.exit(0);    
         }
-        String copy_label= orj.getLabel()+"_copy";
-        super.setLabel(copy_label);
-        super.setTarih(orj.getTarih());
+       
+        super.setLabel(orj.getLabel());
+        super.setTarih(new Date(orj.getTarih()));
         en=orj.getEn(); 
         boy=orj.getBoy();
         
     }
     
-
     @Override
     public String toString() {
         return "Dikdortgen " + "label= "+super.getLabel()+ " en= "+ en +
                 " boy= "+  boy + " tarih= "+super.getTarih().toString();
     }
-    
     
     @Override
     public double cevreHesapla(){
@@ -95,6 +88,7 @@ public class Dikdortgen extends GeometrikNesne {
 
         Dikdortgen obj= (Dikdortgen) o;
         double obj_alan= obj.alanHesapla();
+        
         if(alanHesapla()>obj_alan){
             return 1;
         } 

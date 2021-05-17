@@ -18,7 +18,7 @@ public class Silindir extends GeometrikNesne {
         this.yaricap = yaricap;
         this.uzunluk = uzunluk;
     }
-
+    //constructor with super parameters
     public Silindir(double yaricap, double uzunluk, String label, Date tarih) {
         super(label, tarih);
         this.yaricap = yaricap;
@@ -33,11 +33,10 @@ public class Silindir extends GeometrikNesne {
             System.exit(0);    
         }
 
-        String copy_label=orj.getLabel()+"_copy";
-        super.setLabel(copy_label);
-        super.setTarih(orj.getTarih());
+        super.setLabel(orj.getLabel());
+        super.setTarih(new Date(orj.getTarih()));
         yaricap=orj.getYaricap(); //no privacy leak with primitive types
-        uzunluk=orj.getYaricap();
+        uzunluk=orj.getUzunluk();
         
     }
 
@@ -66,7 +65,7 @@ public class Silindir extends GeometrikNesne {
     
     public double hacimHesapla(){
         
-        double hacim= Math.PI*yaricap*yaricap;
+        double hacim= Math.PI*yaricap*yaricap*uzunluk;
         return hacim;
     }
     
@@ -88,6 +87,7 @@ public class Silindir extends GeometrikNesne {
         
         Silindir obj = (Silindir) o;
         double obj_hacim= obj.hacimHesapla();
+        
         if(hacimHesapla()>obj_hacim){
             return 1;
         }
