@@ -47,7 +47,7 @@ public class Daire extends GeometrikNesne {
         }
         
 
-        super.setLabel(orj.getLabel());
+        super.setLabel(orj.getLabel()+"-copy");
         super.setTarih(new Date(orj.getTarih()));
         this.yaricap=orj.getYaricap(); 
 
@@ -55,7 +55,7 @@ public class Daire extends GeometrikNesne {
 
     @Override
     public String toString() {
-        return "Daire " +" label= "+super.getLabel()+" "+ "yaricap= " + yaricap + " label= " +super.getLabel() + " tarih= " + super.getTarih().toString();
+        return "Daire " +" label= "+super.getLabel()+" "+ "yaricap= " + yaricap + " tarih= " + super.getTarih().toString();
 
     }
     

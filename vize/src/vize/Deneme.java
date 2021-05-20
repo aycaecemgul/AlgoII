@@ -2,7 +2,6 @@ package vize;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 /**
@@ -15,6 +14,19 @@ public class Deneme {
         
         GeometrikNesne[] dizi = new GeometrikNesne[50];
         int index=0;
+        //son yaratılan nesneleri tutmak ici variable lar
+        GeometrikNesne son_daire=null;
+        GeometrikNesne son_dik=null;
+        GeometrikNesne son_sil = null;
+        
+        //ilk nesnelerin tutulması icin variablelar ve indexler oluşturuldu
+        GeometrikNesne ilk_daire=null;
+        GeometrikNesne ilk_dik=null;
+        GeometrikNesne ilk_sil = null;
+        int daire_index=0;
+        int dik_index=0;
+        int sil_index=0;
+        
         try{
            File file = new File("input.txt"); 
            Scanner file_scanner = new Scanner(file);
@@ -23,7 +35,7 @@ public class Deneme {
            int day;
            int year;
            GeometrikNesne yeni; 
-           
+           //
            while (file_scanner.hasNextLine()) {       
                 String sekil=file_scanner.next();
                 if(sekil.equals("daire")){ //nextline daire nesnesi ise
@@ -38,9 +50,11 @@ public class Deneme {
                    
                     Date new_date= new Date(month,day,year);
                     yeni= new Daire(label,new_date,yaricap);
-                    
+                    son_daire= new Daire( (Daire) yeni); //so daireyi tutan var. her loopta gücellenir.
                     dizi[index]=yeni;
                     index++;
+                    if(daire_index==0){ilk_daire=yeni; daire_index++;}
+                    
                 }
                 else if(sekil.equals("dikdortgen")){ //nexline  dikdortgen nesnesi ise
                     String label = file_scanner.next();
@@ -54,9 +68,10 @@ public class Deneme {
 
                     Date new_date= new Date(month,day,year);
                     yeni= new Dikdortgen(label, new_date,en,boy);
+                    son_dik= new Dikdortgen( (Dikdortgen) yeni); //so dikdörtgeni tutan var. her loopta gücellenir.
                     dizi[index]=yeni;
                     index++;
-
+                    if(dik_index==0){ilk_dik=yeni; dik_index++;}
                 }
                 else if(sekil.equals("silindir")){ //nextline silindir nesnesi ise
                     String label = file_scanner.next();
@@ -70,118 +85,146 @@ public class Deneme {
 
                     Date new_date= new Date(month,day,year);
                     yeni =new Silindir(yaricap,uzunluk,label,new_date);
+                    son_sil = new Silindir ((Silindir) yeni);
                     dizi[index]=yeni;
                     index++;
+                    if(sil_index==0){ilk_sil=yeni; sil_index++;}
                 }
             }
         }
         catch(FileNotFoundException e){
              System.out.println("error while reading input text");
         }
-                
-        Daire dai3=(Daire) dizi[3];
-        Daire dai4 = new Daire(dai3); //copy constructor
-        dizi[index]=dai4;
+        
+
+        
+        //son daire,dikdortgen ve silindir copyleri oluşturulur listeye eklenir
+        
+        GeometrikNesne son_daire_copy = new Daire((Daire)son_daire); //copy constructor
+        dizi[index]=son_daire_copy;
         index++;
         
-        Dikdortgen dik2 = (Dikdortgen) dizi[6];
-        Dikdortgen dik3 = new Dikdortgen(dik2); //copy constructor
-        dizi[index]=dik3;
+        GeometrikNesne son_dik_copy = new Dikdortgen((Dikdortgen) son_dik); //copy constructor
+        dizi[index]=son_dik_copy;
+        index++;
+
+        GeometrikNesne son_sil_copy = new Silindir((Silindir) son_sil); //copy constructor
+        dizi[index]=son_sil_copy;
         index++;
         
-        Silindir sil2 = (Silindir) dizi[5];
-        Silindir sil3 = new Silindir(sil2); //copy constructor
-        dizi[index]=sil3;
-        index++;
         
-        Daire dai2 = (Daire) dizi[2];
-        Dikdortgen dik1 = (Dikdortgen) dizi[1];
-        Silindir sil1 = (Silindir) dizi[4];
         System.out.println("Polymorphicyazdir metot çıktıları: ");
-        polymorphicYazdir(sil3);
-        polymorphicYazdir(dik2);
-        polymorphicYazdir(dai2);
+        System.out.println("");
+        for(int j=0;j<index;j++){
+            polymorphicYazdir(dizi[j]);}
         System.out.println("");
         
         System.out.println("karsılastır metot çıktıları: ");
-        karsilastir(dai2,dai3);
-        karsilastir(dai4,dai3); //sonuc esit cıkmalı
-        karsilastir(dik1,dik2);
-        karsilastir(dik2,dik3); //sonuc esit cıkmalı
-        karsilastir(sil1,sil2);
-        karsilastir(sil2,sil3); //sonuc esit cıkmalı
-//        
-//        ArrayList<Double> dizi2= new ArrayList<>();
-//        
-//        //cevre ortalaması,en küçük ve en büyük çevrenin bulunması:
-//        
-//        double cevre=0; 
-//        double en_kucuk_cevre=10000.; //en kucuk cevrenin bulunması icin  büyük bir rakam atanmıştır.
-//        double en_buyuk_cevre=0;
-//        int count=0; //cevresi hesaplanan nesne sayısı
-//        for (GeometrikNesne nesne : dizi) {
-//            cevre+=nesne.cevreHesapla(); //yeni nesnenin cevresi toplam cevreye eklenir
-//            count+=1; 
-//            if(cevre>en_buyuk_cevre){en_buyuk_cevre=cevre;} //yeni hesaplanan cevre en büyük cevreden büyükse yeni en büyük cevre variable ı updatelenir
-//            if(cevre<en_kucuk_cevre){en_kucuk_cevre=cevre;} //yeni hesaplanan cevre en kücük cevreden kücükse en kücük cevre variable ı updatelenir
-//        }
-//        cevre=cevre/count; //cevre aritmetik ortalaması hesaplanir
-//        dizi2.add(cevre); //dizi2ye ortalamayı ekle
-//        
-//        
-//        //alan ortalaması,en büyük ve en kucuk alanın bulunması:
-//        
-//        double alan=0;
-//        double en_kucuk_alan=10000.; //en kucuk alanın bulunması icin  büyük bir rakam atanmıştır.
-//        double en_buyuk_alan=0;
-//        count=0; //alanı hesaplanan nesne sayısı
-//        for (GeometrikNesne nesne : dizi) {
-//            alan+=nesne.alanHesapla(); //yeni nesnenin alanı toplam alana eklenir
-//            count+=1;
-//            if(alan>en_buyuk_alan){en_buyuk_alan=alan;} //yeni hesaplanan alan en büyük alandan büyükse yeni en büyük alan variable ı updatelenir
-//            if(alan<en_kucuk_alan){en_kucuk_alan=alan;} //yeni hesaplanan alan en kücük alandan kücükse en kücük alan variable ı updatelenir
-//        }
-//        alan=alan/count; //alan aritmetik ortalaması hesaplanir
-//        dizi2.add(alan); //dizi2ye ortalamayı ekle
-//        
-//        //hacim ortalaması,en büyük ve en kücük hacimin bulunması:
-//        double hacim=0;
-//        double en_kucuk_hacim=1000000.; //en kucuk hacimin bulunması icin  büyük bir rakam atanmıştır.
-//        double en_buyuk_hacim=0;
-//        count=0; //hacmi hesaplanan silindir sayisi
-//        for (GeometrikNesne nesne : dizi) {
-//            if(nesne instanceof Silindir){ //eger silindir objesi ise hacim hesaplanır.
-//                Silindir slndr = (Silindir) nesne; 
-//                hacim+=slndr.hacimHesapla(); //nesnenin hacmi toplam hacim variable ına eklenir
-//                count+=1; 
-//                if(hacim>en_buyuk_hacim){en_buyuk_hacim=hacim;} //yeni hesaplanan hacim en büyük hacimden büyükse yeni en büyük hacim variable ı updatelenir
-//                if(hacim<en_kucuk_hacim){en_kucuk_hacim=hacim;} //yeni hesaplanan hacim en kücük hacimden kücükse en kücük hacim variable ı updatelenir
-//            }
-//        }
-//        hacim=hacim/count; //hacim aritmetik ortalaması hesaplanir
-//        dizi2.add(hacim); //dizi2 ye ortalamayı ekle
-//        
-//        //bulunan min ve max değerleri dizi2 ye ekle.
-//        dizi2.add(en_kucuk_cevre);
-//        dizi2.add(en_buyuk_cevre);
-//        
-//        dizi2.add(en_kucuk_alan);
-//        dizi2.add(en_buyuk_alan);
-//        
-//        dizi2.add(en_kucuk_hacim);
-//        dizi2.add(en_buyuk_hacim);
-//        
-//        System.out.println("");
-//        System.out.println("Ortalamalar:");
-//        System.out.println("Cevre ortalaması= "+cevre);
-//        System.out.println("Alan ortalaması= "+alan);
-//        System.out.println("Hacim ortalaması= "+hacim);
+        karsilastir(ilk_daire,son_daire_copy);
+        karsilastir(son_daire_copy,son_daire); // ==
+        karsilastir(ilk_dik,son_dik_copy);
+        karsilastir(son_dik_copy,son_dik); //==
+        karsilastir(ilk_sil,son_sil_copy);
+        karsilastir(son_sil_copy,son_sil); //==
         
+        double[] dizi2 = new double[50];
+        int index2=0;
+        
+        System.out.println("");
+        
+        //cevre ortalaması,en küçük ve en büyük çevrenin bulunması:
+        
+        
+        double toplam_cevre=0;
+        double en_kucuk_cevre=10000.; //en kucuk cevrenin bulunması icin  büyük bir rakam atanmıştır.
+        double en_buyuk_cevre=0;
+        int count=0; //cevresi hesaplanan nesne sayısı
+
+        for (int i=0;i<index;i++) {
+            double cevre=0; 
+            cevre = dizi[i].cevreHesapla(); //yeni nesnenin cevresi toplam cevreye eklenir
+            toplam_cevre+=cevre;
+            count+=1; 
+            if(cevre>en_buyuk_cevre){en_buyuk_cevre=cevre;} //yeni hesaplanan cevre en büyük cevreden büyükse yeni en büyük cevre variable ı updatelenir
+            if(cevre<en_kucuk_cevre){en_kucuk_cevre=cevre;} //yeni hesaplanan cevre en kücük cevreden kücükse en kücük cevre variable ı updatelenir
+        }
+        
+        dizi2[index2]= toplam_cevre/count;  //cevre aritmetik ortalaması hesapla dizi2ye ekle
+        index2++;
+        
+        
+        //alan ortalaması,en büyük ve en kucuk alanın bulunması:
+        
+        double toplam_alan=0;
+        double en_kucuk_alan=10000.; //en kucuk alanın bulunması icin  büyük bir rakam atanmıştır.
+        double en_buyuk_alan=0;
+        count=0; //alanı hesaplanan nesne sayısı
+        for (int i=0;i<index;i++) {
+            double alan=0;
+            alan=dizi[i].alanHesapla(); //yeni nesnenin alanı toplam alana eklenir
+            toplam_alan+=alan;
+            count+=1;
+            if(alan>en_buyuk_alan){en_buyuk_alan=alan;} //yeni hesaplanan alan en büyük alandan büyükse yeni en büyük alan variable ı updatelenir
+            if(alan<en_kucuk_alan){en_kucuk_alan=alan;} //yeni hesaplanan alan en kücük alandan kücükse en kücük alan variable ı updatelenir
+        }
+        
+        dizi2[index2]=toplam_alan/count; //alan aritmetik ortalaması hesapla ve dizi2ye ekle
+        index2++;
+        
+        //hacim ortalaması,en büyük ve en kücük hacimin bulunması:
+        double toplam_hacim=0;
+        double en_kucuk_hacim=10000000.; //en kucuk hacimin bulunması icin  büyük bir rakam atanmıştır.
+        double en_buyuk_hacim=0;
+        count=0; //hacmi hesaplanan silindir sayisi
+        for (int i=0;i<index;i++) {
+            double hacim=0;
+            if(dizi[i] instanceof Silindir){ //eger silindir objesi ise hacim hesaplanır.
+                Silindir slndr = (Silindir) dizi[i]; 
+                hacim=slndr.hacimHesapla(); //nesnenin hacmi toplam hacim variable ına eklenir
+                toplam_hacim+=hacim;
+                count+=1; 
+                if(hacim>en_buyuk_hacim){en_buyuk_hacim=hacim;} //yeni hesaplanan hacim en büyük hacimden büyükse yeni en büyük hacim variable ı updatelenir
+                if(hacim<en_kucuk_hacim){en_kucuk_hacim=hacim;} //yeni hesaplanan hacim en kücük hacimden kücükse en kücük hacim variable ı updatelenir
+            }
+        }
+        dizi2[index2]=toplam_hacim/count;; //hacim aritmetik ortalaması hesapla ve dizi2 ye ekle
+        index2++;
+        
+        //bulunan min ve max değerleri dizi2 ye ekle.
+        dizi2[index2]=en_kucuk_cevre;
+        index2++;
+        dizi2[index2]=en_buyuk_cevre;
+        index2++;
+        
+        dizi2[index2]=en_kucuk_alan;
+        index2++;
+        dizi2[index2]=en_buyuk_alan;
+        index2++;
+        
+        dizi2[index2]=en_kucuk_hacim;
+        index2++;
+        dizi2[index2]=en_buyuk_hacim;
+        index2++;
+        
+        
+        System.out.println("");
+        System.out.println("Ortalamalar ve Enler:");
+        System.out.println("Cevre ortalaması= "+dizi2[0]);
+        System.out.println("Alan ortalaması= "+dizi2[1]);
+        System.out.println("Hacim ortalaması= "+dizi2[2]);
+        System.out.println("En küçük çevre= "+dizi2[3]);
+        System.out.println("En büyük çevre= "+dizi2[4]);
+        System.out.println("En küçük alan= "+dizi2[5]);
+        System.out.println("En büyük alan= "+dizi2[6]);
+        System.out.println("En küçük hacim= "+dizi2[7]);
+        System.out.println("En büyük hacim= "+dizi2[8]);
+
         
     }
     
     public static void polymorphicYazdir(GeometrikNesne nesne){
-        System.out.println(nesne.getLabel());
+        System.out.println(nesne.toString());
+        
         System.out.println("Nesne çevresi= "+ nesne.cevreHesapla());
         System.out.println("Nesne alanı= " + nesne.alanHesapla());
         if(nesne instanceof Silindir){ //eger nesne silindir objesi ise true dondurur

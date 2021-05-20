@@ -46,7 +46,7 @@ public abstract class GeometrikNesne implements Comparable {
         }
         Date copy_tarih= new Date(orj.getTarih()); //creating new date object to avoid privacy leak
 
-        label=orj.getLabel();
+        label=orj.getLabel()+"-copy";
         tarih= copy_tarih;
     }
 

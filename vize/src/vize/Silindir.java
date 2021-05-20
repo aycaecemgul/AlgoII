@@ -33,7 +33,7 @@ public class Silindir extends GeometrikNesne {
             System.exit(0);    
         }
 
-        super.setLabel(orj.getLabel());
+        super.setLabel(orj.getLabel()+"-copy");
         super.setTarih(new Date(orj.getTarih()));
         yaricap=orj.getYaricap(); //no privacy leak with primitive types
         uzunluk=orj.getUzunluk();

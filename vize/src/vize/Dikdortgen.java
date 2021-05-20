@@ -59,7 +59,7 @@ public class Dikdortgen extends GeometrikNesne {
             System.exit(0);    
         }
        
-        super.setLabel(orj.getLabel());
+        super.setLabel(orj.getLabel()+"-copy");
         super.setTarih(new Date(orj.getTarih()));
         en=orj.getEn(); 
         boy=orj.getBoy();
